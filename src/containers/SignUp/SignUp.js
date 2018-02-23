@@ -9,7 +9,6 @@ import './styles.css';
 
 class SignUp extends Component {
   state = {
-    // Define the signup form
     form: {
       email: {
         elementType: 'input',
@@ -71,44 +70,53 @@ class SignUp extends Component {
     formIsValid: false
   };
 
-  inputChangedHandler = (event, inputIdentifier) => {
-    console.log('Input changed handler: ', inputIdentifier);
-    const updatedFormElement = updateObject(this.state.form[inputIdentifier], {
-      value: event.target.value,
-      valid: checkValidity(
-        event.target.value,
-        this.state.form[inputIdentifier].validation
-      ),
-      touched: true
+  // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
+  inputChangedHandler = (event, fieldName) => {
+    this.updateFormField(event.target.value, fieldName);
+    this.updateFormIsValidState();
+  };
+
+  // This method updates the form stored in state. It sets the value of fieldName to userInput, checks
+  // the validity of userInput, and updates fieldName's valid status to the result of this validation check
+  updateFormField = (userInput, fieldName) => {
+    let form = this.state.form;
+    let field = form[fieldName];
+    const isValid = checkValidity(userInput, field.validation); // Check if user input is valid
+    const updatedField = updateObject(field, {
+      value: userInput,
+      valid: isValid,
+      touched: true // To show errors accordingly
     });
-    console.log('updated form element: ', updatedFormElement);
-    const updatedForm = updateObject(this.state.form, {
-      [inputIdentifier]: updatedFormElement
-    });
-    console.log('updated form:', updatedForm);
+    const updatedForm = updateObject(form, { [fieldName]: updatedField });
+    this.setState({ form: updatedForm });
+  };
+
+  // Goes through each form field and checks that it is valid. If all are valid, sets state.formIsValid to true.
+  // False otherwise.
+  updateFormIsValidState = () => {
     let formIsValid = true;
-    for (let inputIdentifier in updatedForm) {
-      formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+    for (let field in this.state.form) {
+      formIsValid = this.state.form[field].valid && formIsValid;
     }
-    this.setState({
-      form: updatedForm,
-      formIsValid: formIsValid
-    });
+    this.setState({ formIsValid: formIsValid });
   };
 
   renderFormElements = () => {
-    return Object.entries(this.state.form).map(element => {
+    return Object.entries(this.state.form).map(field => {
+      let fieldName = field[0];
+      let fieldProperties = field[1];
       return (
         <Input
-          key={element[0]}
-          elementType={element[1].elementType}
-          elementConfig={element[1].elementConfig}
-          value={element[1].value}
-          invalid={!element[1].valid}
-          shouldValidate={element[1].validation}
-          touched={element[1].touched}
-          changed={event => this.inputChangedHandler(event, element[0])}
-          validationMsg={element[1].validationMessage}
+          key={fieldName}
+          elementType={fieldProperties.elementType}
+          elementConfig={fieldProperties.elementConfig}
+          value={fieldProperties.value}
+          invalid={!fieldProperties.valid}
+          shouldValidate={fieldProperties.validation}
+          touched={fieldProperties.touched}
+          changed={event => this.inputChangedHandler(event, fieldName)}
+          //   onClick={event => this.inputClickedHandler(event, fieldName)}
+          validationMsg={fieldProperties.validationMessage}
         />
       );
     });
