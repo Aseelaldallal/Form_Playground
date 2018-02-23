@@ -57,6 +57,60 @@ class SignUp extends Component {
         touched: false,
         validationMessage: 'Please enter a valid email address'
       },
+      password: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'password',
+          placeholder: 'Pick a secure password',
+          label: 'Password'
+        },
+        value: '',
+        validation: {
+          required: true,
+          password: true
+        },
+        valid: false,
+        touched: false,
+        validationMessage:
+          'Your password must be at least 8 characters long and contain no white spaces'
+      },
+      major: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'What are you studying?',
+          label: 'Major'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
+        validationMessage: 'Please enter your major.'
+      },
+      academicYear: {
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            { displayName: 1, value: 1 },
+            { displayName: 2, value: 2 },
+            { displayName: 3, value: 3 },
+            { displayName: 4, value: 4 },
+            { displayName: 5, value: 5 },
+            { displayName: 6, value: 6 }
+          ],
+          label: 'Academic Year',
+          defaultSelect: 'Select'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
+        validationMessage: 'Please select your academic year'
+      },
       institution: {
         elementType: 'select',
         elementConfig: {
@@ -95,7 +149,22 @@ class SignUp extends Component {
         },
         valid: false,
         touched: false,
-        validationMessage: 'Your bio must be between 100-400 characters.'
+        validationMessage: 'Your bio must be between 100-400 characters'
+      },
+      facebook: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'https://www.facebook.com/harrypotter',
+          label: 'Facebook'
+        },
+        value: '',
+        validation: {
+          url: true
+        },
+        valid: true,
+        touched: false,
+        validationMessage: 'Please enter a valid url'
       }
     },
     formIsValid: false
@@ -112,11 +181,25 @@ class SignUp extends Component {
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
   inputBlurredHandler = (event, fieldName) => {
-    this.updateFormField(
-      event.target.value,
-      fieldName,
-      this.updateFormIsValidState
-    );
+    let field = this.state.form[fieldName];
+    if (!field.validation.required && event.target.value === '') {
+      console.log('HERE');
+      const updatedField = updateObject(field, {
+        value: event.target.value,
+        valid: false,
+        touched: false
+      });
+      const updatedForm = updateObject(this.state.form, {
+        [fieldName]: updatedField
+      });
+      this.setState({ form: updatedForm });
+    } else {
+      this.updateFormField(
+        event.target.value,
+        fieldName,
+        this.updateFormIsValidState
+      );
+    }
   };
 
   // This method updates the form stored in state. It sets the value of fieldName to userInput, checks
