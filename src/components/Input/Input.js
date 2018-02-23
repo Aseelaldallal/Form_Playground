@@ -16,6 +16,7 @@ const input = props => {
           {...props.elementConfig}
           value={props.value}
           onChange={props.changed}
+          onBlur={props.blurred}
         />
       );
       break;
@@ -25,6 +26,7 @@ const input = props => {
           {...props.elementConfig}
           value={props.value}
           onChange={props.changed}
+          onBlur={props.blurred}
         />
       );
       break;
@@ -33,7 +35,7 @@ const input = props => {
         <select
           defaultValue={props.elementConfig.defaultSelect}
           onChange={props.changed}
-          onClick={props.clicked}
+          onBlur={props.blurred}
         >
           <option disabled hidden>
             {props.elementConfig.defaultSelect}

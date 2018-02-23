@@ -11,16 +11,20 @@ export const checkValidity = (value, rules) => {
     return true;
   }
   if (rules.required) {
-    isValid = value.trim() !== '' && isValid;
+    isValid = value !== '' && isValid;
   }
   if (rules.minLength) {
-    isValid = value.replace(/ /g, '').length >= rules.minLength && isValid;
+    isValid = value.length >= rules.minLength && isValid;
   }
   if (rules.maxLength) {
-    isValid = value.replace(/ /g, '').length <= rules.maxLength && isValid;
+    isValid = value.length <= rules.maxLength && isValid;
   }
   if (rules.email) {
     const pattern = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/;
+    isValid = pattern.test(value) && isValid;
+  }
+  if (rules.username) {
+    const pattern = /^\S*$/;
     isValid = pattern.test(value) && isValid;
   }
   return isValid;

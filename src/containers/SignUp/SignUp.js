@@ -10,11 +10,42 @@ import './styles.css';
 class SignUp extends Component {
   state = {
     form: {
+      fullName: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Harry Potter',
+          label: 'Full Name'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
+        validationMessage: 'Please enter your full name.'
+      },
+      username: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'harry_762',
+          label: 'Username'
+        },
+        value: '',
+        validation: {
+          required: true,
+          username: true
+        },
+        valid: false,
+        touched: false,
+        validationMessage: 'Please enter a username with no white spaces.'
+      },
       email: {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Email Address',
+          placeholder: 'harrypotter@gmail.com',
           label: 'Email Address'
         },
         value: '',
@@ -79,13 +110,22 @@ class SignUp extends Component {
     );
   };
 
+  // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
+  inputBlurredHandler = (event, fieldName) => {
+    this.updateFormField(
+      event.target.value,
+      fieldName,
+      this.updateFormIsValidState
+    );
+  };
+
   // This method updates the form stored in state. It sets the value of fieldName to userInput, checks
   // the validity of userInput, and updates fieldName's valid status to the result of this validation check.
   // After updating the state, it calls callback
   updateFormField = (userInput, fieldName, callback) => {
     let form = this.state.form;
     let field = form[fieldName];
-    const isValid = checkValidity(userInput, field.validation); // Check if user input is valid
+    const isValid = checkValidity(userInput.trim(), field.validation); // Check if user input is valid
     const updatedField = updateObject(field, {
       value: userInput,
       valid: isValid,
@@ -119,6 +159,7 @@ class SignUp extends Component {
           shouldValidate={fieldProperties.validation}
           touched={fieldProperties.touched}
           changed={event => this.inputChangedHandler(event, fieldName)}
+          blurred={event => this.inputBlurredHandler(event, fieldName)}
           validationMsg={fieldProperties.validationMessage}
         />
       );
