@@ -167,7 +167,8 @@ class SignUp extends Component {
         validationMessage: 'Please enter a valid url'
       }
     },
-    formIsValid: false
+    formIsValid: false,
+    imgURL: ''
   };
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
@@ -251,9 +252,21 @@ class SignUp extends Component {
     });
   };
 
+  // Submit form: Create User
   handleSubmit = event => {
     event.preventDefault();
     console.log('Submit!');
+  };
+
+  handleImageChange = e => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      //this.props.uploadImage(reader.result, file);
+      this.setState({ imgURL: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
 
   render() {
@@ -261,6 +274,8 @@ class SignUp extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           {this.renderFormElements()}
+          <img src={this.state.imgURL} />
+          <input type="file" onChange={e => this.handleImageChange(e)} />
           <button disabled={!this.state.formIsValid}>SIGN UP</button>
         </form>
       </div>
