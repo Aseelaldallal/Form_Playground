@@ -19,7 +19,7 @@ export const checkValidity = (value, rules) => {
   if (rules.maxLength) {
     isValid = value.replace(/ /g, '').length <= rules.maxLength && isValid;
   }
-  if (rules.isEmail) {
+  if (rules.email) {
     const pattern = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/;
     isValid = pattern.test(value) && isValid;
   }

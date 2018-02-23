@@ -10,20 +10,22 @@ import './styles.css';
 class SignUp extends Component {
   state = {
     // Define the signup form
-    signUpForm: {
+    form: {
       email: {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Email'
+          placeholder: 'Email Address',
+          label: 'Email Address'
         },
         value: '',
         validation: {
           required: true,
           email: true
         },
-        validationErrors: [],
-        touched: false
+        valid: false,
+        touched: false,
+        validationMessage: 'Please enter a valid email address'
       },
       institution: {
         elementType: 'select',
@@ -38,78 +40,89 @@ class SignUp extends Component {
               value: 'University of Toronto'
             }
           ],
-          label: 'Select Institution'
+          label: 'Institution Name',
+          defaultSelect: 'Select'
         },
         value: '',
         validation: {
           required: true
         },
-        validationErrors: [],
-        touched: false
+        valid: false,
+        touched: false,
+        validationMessage: 'Please select your institution'
       },
       bio: {
         elementType: 'textarea',
         elementConfig: {
-          placeholder: 'Bio: Tell us something intersting about yourself!'
+          placeholder: 'Bio: Tell us something intersting about yourself!',
+          label: 'Bio'
         },
         value: '',
         validation: {
           required: true,
-          minLength: 50,
-          maxLength: 300
+          minLength: 100,
+          maxLength: 400
         },
-        validationErrors: [],
-        touched: false
-      },
-      facebook: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Facebook'
-        },
-        value: '',
-        validation: {},
-        validationErrors: [],
-        touched: false
+        valid: false,
+        touched: false,
+        validationMessage: 'Your bio must be between 100-400 characters.'
       }
     },
     formIsValid: false
   };
 
-  // This method transforms the signUpForm object in state into an actual form with jsx
+  inputChangedHandler = (event, inputIdentifier) => {
+    console.log('Input changed handler: ', inputIdentifier);
+    const updatedFormElement = updateObject(this.state.form[inputIdentifier], {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        this.state.form[inputIdentifier].validation
+      ),
+      touched: true
+    });
+    console.log('updated form element: ', updatedFormElement);
+    const updatedForm = updateObject(this.state.form, {
+      [inputIdentifier]: updatedFormElement
+    });
+    console.log('updated form:', updatedForm);
+    let formIsValid = true;
+    for (let inputIdentifier in updatedForm) {
+      formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+    }
+    this.setState({
+      form: updatedForm,
+      formIsValid: formIsValid
+    });
+  };
+
   renderFormElements = () => {
-    return Object.entries(this.state.signUpForm).map(element => {
-      let elementIdentifier = element[0]; // FullName, Email, Password
-      let elementFields = element[1]; // The fields in each identifier object
+    return Object.entries(this.state.form).map(element => {
       return (
         <Input
-          key={elementIdentifier}
-          elementType={elementFields.elementType}
-          elementConfig={elementFields.elementConfig}
-          value={elementFields.value}
-          touched={elementFields.touched}
-          //   changed={event => this.inputChangedHandler(event, elementIdentifier)}
-          //   blurred={event => this.inputBlurredHandler(event, elementIdentifier)}
-          validationErrors={elementFields.validationErrors}
+          key={element[0]}
+          elementType={element[1].elementType}
+          elementConfig={element[1].elementConfig}
+          value={element[1].value}
+          invalid={!element[1].valid}
+          shouldValidate={element[1].validation}
+          touched={element[1].touched}
+          changed={event => this.inputChangedHandler(event, element[0])}
+          validationMsg={element[1].validationMessage}
         />
       );
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-  };
-
   render() {
-    return (
-      <div className="container">
-        <h3> Sign Up </h3>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderFormElements()}
-          <button disabled={!this.state.signUpForm.formIsValid}>Sign Up</button>
-        </form>
-      </div>
+    let form = (
+      <form>
+        {this.renderFormElements()}
+        <button disabled={!this.state.formIsValid}>SIGN UP</button>
+      </form>
     );
+
+    return <div className="container">{form}</div>;
   }
 }
 
