@@ -172,7 +172,7 @@ class SignUp extends Component {
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
   inputChangedHandler = (event, fieldName) => {
-    this.updateFormField(
+    this.updateFormFieldAndValidate(
       event.target.value,
       fieldName,
       this.updateFormIsValidState
@@ -182,19 +182,14 @@ class SignUp extends Component {
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
   inputBlurredHandler = (event, fieldName) => {
     let field = this.state.form[fieldName];
+    // If field isn't required, and it's empty, don't validate
     if (!field.validation.required && event.target.value === '') {
-      console.log('HERE');
-      const updatedField = updateObject(field, {
-        value: event.target.value,
-        valid: false,
-        touched: false
-      });
-      const updatedForm = updateObject(this.state.form, {
-        [fieldName]: updatedField
-      });
-      this.setState({ form: updatedForm });
+      this.updateField(
+        { value: event.target.value, valid: false, touched: false },
+        fieldName
+      );
     } else {
-      this.updateFormField(
+      this.updateFormFieldAndValidate(
         event.target.value,
         fieldName,
         this.updateFormIsValidState
@@ -202,20 +197,27 @@ class SignUp extends Component {
     }
   };
 
+  //This method updates the form.fieldName with updates
+  updateField = (updates, fieldName, callback) => {
+    const updatedField = updateObject(this.state.form[fieldName], updates);
+    const updatedForm = updateObject(this.state.form, {
+      [fieldName]: updatedField
+    });
+    this.setState({ form: updatedForm }, callback);
+  };
+
   // This method updates the form stored in state. It sets the value of fieldName to userInput, checks
   // the validity of userInput, and updates fieldName's valid status to the result of this validation check.
   // After updating the state, it calls callback
-  updateFormField = (userInput, fieldName, callback) => {
+  updateFormFieldAndValidate = (userInput, fieldName, callback) => {
     let form = this.state.form;
     let field = form[fieldName];
     const isValid = checkValidity(userInput.trim(), field.validation); // Check if user input is valid
-    const updatedField = updateObject(field, {
-      value: userInput,
-      valid: isValid,
-      touched: true // To show errors accordingly
-    });
-    const updatedForm = updateObject(form, { [fieldName]: updatedField });
-    this.setState({ form: updatedForm }, callback);
+    this.updateField(
+      { value: userInput, valid: isValid, touched: true },
+      fieldName,
+      callback
+    );
   };
 
   //   Goes through each form field and checks that it is valid. If all are valid, sets state.formIsValid to true.
