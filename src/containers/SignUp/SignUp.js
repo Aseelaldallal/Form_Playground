@@ -72,13 +72,17 @@ class SignUp extends Component {
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
   inputChangedHandler = (event, fieldName) => {
-    this.updateFormField(event.target.value, fieldName);
-    this.updateFormIsValidState();
+    this.updateFormField(
+      event.target.value,
+      fieldName,
+      this.updateFormIsValidState
+    );
   };
 
   // This method updates the form stored in state. It sets the value of fieldName to userInput, checks
-  // the validity of userInput, and updates fieldName's valid status to the result of this validation check
-  updateFormField = (userInput, fieldName) => {
+  // the validity of userInput, and updates fieldName's valid status to the result of this validation check.
+  // After updating the state, it calls callback
+  updateFormField = (userInput, fieldName, callback) => {
     let form = this.state.form;
     let field = form[fieldName];
     const isValid = checkValidity(userInput, field.validation); // Check if user input is valid
@@ -88,11 +92,11 @@ class SignUp extends Component {
       touched: true // To show errors accordingly
     });
     const updatedForm = updateObject(form, { [fieldName]: updatedField });
-    this.setState({ form: updatedForm });
+    this.setState({ form: updatedForm }, callback);
   };
 
-  // Goes through each form field and checks that it is valid. If all are valid, sets state.formIsValid to true.
-  // False otherwise.
+  //   Goes through each form field and checks that it is valid. If all are valid, sets state.formIsValid to true.
+  //   False otherwise.
   updateFormIsValidState = () => {
     let formIsValid = true;
     for (let field in this.state.form) {
@@ -115,22 +119,26 @@ class SignUp extends Component {
           shouldValidate={fieldProperties.validation}
           touched={fieldProperties.touched}
           changed={event => this.inputChangedHandler(event, fieldName)}
-          //   onClick={event => this.inputClickedHandler(event, fieldName)}
           validationMsg={fieldProperties.validationMessage}
         />
       );
     });
   };
 
-  render() {
-    let form = (
-      <form>
-        {this.renderFormElements()}
-        <button disabled={!this.state.formIsValid}>SIGN UP</button>
-      </form>
-    );
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log('Submit!');
+  };
 
-    return <div className="container">{form}</div>;
+  render() {
+    return (
+      <div className="container">
+        <form onSubmit={this.handleSubmit}>
+          {this.renderFormElements()}
+          <button disabled={!this.state.formIsValid}>SIGN UP</button>
+        </form>
+      </div>
+    );
   }
 }
 

@@ -33,6 +33,7 @@ const input = props => {
         <select
           defaultValue={props.elementConfig.defaultSelect}
           onChange={props.changed}
+          onClick={props.clicked}
         >
           <option disabled hidden>
             {props.elementConfig.defaultSelect}
