@@ -27,5 +27,8 @@ export const checkValidity = (value, rules) => {
     const pattern = /^\S*$/;
     isValid = pattern.test(value) && isValid;
   }
+  if (rules.password) {
+    isValid = value.replace(/ /g, '').length >= 8 && isValid;
+  }
   return isValid;
 };
