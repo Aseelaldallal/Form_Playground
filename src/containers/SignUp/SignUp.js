@@ -263,35 +263,36 @@ class SignUp extends Component {
     console.log('Submit!');
   };
 
+  // Updates state.imageData with incoming parameters
+  updateImageField = (imgURL, file, error) => {
+    let updatedImageData = updateObject(this.state.imageData, {
+      imgURL: imgURL,
+      file: file,
+      error: error
+    });
+    this.setState({
+      imageData: updatedImageData
+    });
+  };
+
+  // If user's uploaded file is not an image, or exceeds 500kb, returns an error. Otherwise,
+  // displays the uploaded image to the user and stores the file in state
   handleImageChange = e => {
     e.preventDefault();
     let file = e.target.files[0];
     var imageType = /^image\//;
     if (!imageType.test(file.type)) {
-      let updatedImageData = updateObject(this.state.imageData, {
-        error: 'Invalid File Type. Must upload an image.'
-      });
-      this.setState({
-        imageData: updatedImageData
-      });
+      this.updateImageField('', '', 'Invalid File Type. Must upload an image');
     } else if (file.size > 500000) {
-      // 500KB
-      let updatedImageData = updateObject(this.state.imageData, {
-        error: 'File too large. Maximum upload size: 500KB.'
-      });
-      this.setState({
-        imageData: updatedImageData
-      });
+      this.updateImageField(
+        '',
+        '',
+        'File too large. Maximum upload size: 500KB.'
+      );
     } else {
       let reader = new FileReader();
       reader.onloadend = () => {
-        let updatedImageData = updateObject(this.state.imageData, {
-          imgURL: reader.result,
-          file: file
-        });
-        this.setState({
-          imageData: updatedImageData
-        });
+        this.updateImageField(reader.result, file, '');
       };
       reader.readAsDataURL(file);
     }
