@@ -2,11 +2,16 @@ import React from 'react';
 import './styles.css';
 
 const ImageUpload = props => {
-  console.log(props);
   return (
     <div className="imageUpload">
       <img className="image" src={props.imgURL} />
-      <input type="file" onChange={props.changed} />
+      <input
+        type="file"
+        onChange={props.changed}
+        hidden
+        ref={input => (this.myinput = input)}
+      />
+      <button onClick={() => this.myinput.click()}> Upload Image </button>
     </div>
   );
 };
