@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 // Components and Containers
 import Input from '../../components/UI/Input/Input';
+import ImageUpload from '../../components/UI/ImageUpload/ImageUpload';
 //Utility
 import { updateObject, checkValidity } from '../../utility/utility';
 // Styles
@@ -266,7 +267,13 @@ class SignUp extends Component {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({ imgURL: reader.result, file: file });
+      let updatedImageData = updateObject(this.state.imageData, {
+        imgURL: reader.result,
+        file: file
+      });
+      this.setState({
+        imageData: updatedImageData
+      });
     };
     reader.readAsDataURL(file);
   };
@@ -276,14 +283,10 @@ class SignUp extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           {this.renderFormElements()}
-          <div>
-            <img className="image" src={this.state.imgURL} />
-            <input
-              type="file"
-              ref={input => (this.myinput = input)}
-              onChange={event => this.handleImageChange(event)}
-            />
-          </div>
+          <ImageUpload
+            changed={e => this.handleImageChange(e)}
+            imgURL={this.state.imageData.imgURL}
+          />
           <button disabled={!this.state.formIsValid}>SIGN UP</button>
         </form>
       </div>
