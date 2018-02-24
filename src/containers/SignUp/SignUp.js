@@ -1,7 +1,7 @@
 // React
 import React, { Component } from 'react';
 // Components and Containers
-import Input from '../../components/Input/Input';
+import Input from '../../components/UI/Input/Input';
 //Utility
 import { updateObject, checkValidity } from '../../utility/utility';
 // Styles
@@ -168,7 +168,10 @@ class SignUp extends Component {
       }
     },
     formIsValid: false,
-    imgURL: ''
+    imageData: {
+      url: '',
+      file: ''
+    }
   };
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
@@ -263,8 +266,7 @@ class SignUp extends Component {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      //this.props.uploadImage(reader.result, file);
-      this.setState({ imgURL: reader.result });
+      this.setState({ imgURL: reader.result, file: file });
     };
     reader.readAsDataURL(file);
   };
@@ -274,8 +276,14 @@ class SignUp extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           {this.renderFormElements()}
-          <img src={this.state.imgURL} />
-          <input type="file" onChange={e => this.handleImageChange(e)} />
+          <div>
+            <img className="image" src={this.state.imgURL} />
+            <input
+              type="file"
+              ref={input => (this.myinput = input)}
+              onChange={event => this.handleImageChange(event)}
+            />
+          </div>
           <button disabled={!this.state.formIsValid}>SIGN UP</button>
         </form>
       </div>
