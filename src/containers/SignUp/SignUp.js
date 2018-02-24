@@ -25,148 +25,149 @@ class SignUp extends Component {
         valid: false,
         touched: false,
         validationMessage: 'Please enter your full name.'
-      },
-      username: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'harry_762',
-          label: 'Username'
-        },
-        value: '',
-        validation: {
-          required: true,
-          username: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Please enter a username with no white spaces.'
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'harrypotter@gmail.com',
-          label: 'Email Address'
-        },
-        value: '',
-        validation: {
-          required: true,
-          email: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Please enter a valid email address'
-      },
-      password: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'password',
-          placeholder: 'Pick a secure password',
-          label: 'Password'
-        },
-        value: '',
-        validation: {
-          required: true,
-          password: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage:
-          'Your password must be at least 8 characters long and contain no white spaces'
-      },
-      major: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'What are you studying?',
-          label: 'Major'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Please enter your major.'
-      },
-      academicYear: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            { displayName: 1, value: 1 },
-            { displayName: 2, value: 2 },
-            { displayName: 3, value: 3 },
-            { displayName: 4, value: 4 },
-            { displayName: 5, value: 5 },
-            { displayName: 6, value: 6 }
-          ],
-          label: 'Academic Year',
-          defaultSelect: 'Select'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Please select your academic year'
-      },
-      institution: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            {
-              displayName: 'University of Waterloo',
-              value: 'University of Waterloo'
-            },
-            {
-              displayName: 'University of Toronto',
-              value: 'University of Toronto'
-            }
-          ],
-          label: 'Institution Name',
-          defaultSelect: 'Select'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Please select your institution'
-      },
-      bio: {
-        elementType: 'textarea',
-        elementConfig: {
-          placeholder: 'Bio: Tell us something intersting about yourself!',
-          label: 'Bio'
-        },
-        value: '',
-        validation: {
-          required: true,
-          minLength: 100,
-          maxLength: 400
-        },
-        valid: false,
-        touched: false,
-        validationMessage: 'Your bio must be between 100-400 characters'
-      },
-      facebook: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'https://www.facebook.com/harrypotter',
-          label: 'Facebook'
-        },
-        value: '',
-        validation: {
-          url: true
-        },
-        valid: true,
-        touched: false,
-        validationMessage: 'Please enter a valid url'
       }
+      //   ,
+      //   username: {
+      //     elementType: 'input',
+      //     elementConfig: {
+      //       type: 'text',
+      //       placeholder: 'harry_762',
+      //       label: 'Username'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true,
+      //       username: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Please enter a username with no white spaces.'
+      //   },
+      //   email: {
+      //     elementType: 'input',
+      //     elementConfig: {
+      //       type: 'text',
+      //       placeholder: 'harrypotter@gmail.com',
+      //       label: 'Email Address'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true,
+      //       email: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Please enter a valid email address'
+      //   },
+      //   password: {
+      //     elementType: 'input',
+      //     elementConfig: {
+      //       type: 'password',
+      //       placeholder: 'Pick a secure password',
+      //       label: 'Password'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true,
+      //       password: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage:
+      //       'Your password must be at least 8 characters long and contain no white spaces'
+      //   },
+      //   major: {
+      //     elementType: 'input',
+      //     elementConfig: {
+      //       type: 'text',
+      //       placeholder: 'What are you studying?',
+      //       label: 'Major'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Please enter your major.'
+      //   },
+      //   academicYear: {
+      //     elementType: 'select',
+      //     elementConfig: {
+      //       options: [
+      //         { displayName: 1, value: 1 },
+      //         { displayName: 2, value: 2 },
+      //         { displayName: 3, value: 3 },
+      //         { displayName: 4, value: 4 },
+      //         { displayName: 5, value: 5 },
+      //         { displayName: 6, value: 6 }
+      //       ],
+      //       label: 'Academic Year',
+      //       defaultSelect: 'Select'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Please select your academic year'
+      //   },
+      //   institution: {
+      //     elementType: 'select',
+      //     elementConfig: {
+      //       options: [
+      //         {
+      //           displayName: 'University of Waterloo',
+      //           value: 'University of Waterloo'
+      //         },
+      //         {
+      //           displayName: 'University of Toronto',
+      //           value: 'University of Toronto'
+      //         }
+      //       ],
+      //       label: 'Institution Name',
+      //       defaultSelect: 'Select'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Please select your institution'
+      //   },
+      //   bio: {
+      //     elementType: 'textarea',
+      //     elementConfig: {
+      //       placeholder: 'Bio: Tell us something intersting about yourself!',
+      //       label: 'Bio'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       required: true,
+      //       minLength: 100,
+      //       maxLength: 400
+      //     },
+      //     valid: false,
+      //     touched: false,
+      //     validationMessage: 'Your bio must be between 100-400 characters'
+      //   },
+      //   facebook: {
+      //     elementType: 'input',
+      //     elementConfig: {
+      //       type: 'text',
+      //       placeholder: 'https://www.facebook.com/harrypotter',
+      //       label: 'Facebook'
+      //     },
+      //     value: '',
+      //     validation: {
+      //       url: true
+      //     },
+      //     valid: true,
+      //     touched: false,
+      //     validationMessage: 'Please enter a valid url'
+      //   }
     },
     formIsValid: false,
     imageData: {
@@ -230,8 +231,13 @@ class SignUp extends Component {
   //   False otherwise.
   updateFormIsValidState = () => {
     let formIsValid = true;
-    for (let field in this.state.form) {
-      formIsValid = this.state.form[field].valid && formIsValid;
+    // Ensure there is an uploaded image
+    if (this.state.imageData.file === '') {
+      formIsValid = false;
+    } else {
+      for (let field in this.state.form) {
+        formIsValid = this.state.form[field].valid && formIsValid;
+      }
     }
     this.setState({ formIsValid: formIsValid });
   };
@@ -270,9 +276,21 @@ class SignUp extends Component {
       file: file,
       error: error
     });
-    this.setState({
-      imageData: updatedImageData
-    });
+    this.setState(
+      {
+        imageData: updatedImageData
+      },
+      this.updateFormIsValidState
+    );
+  };
+
+  // Displays image on screen, saves associated file in state
+  displayAndSaveImage = file => {
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.updateImageField(reader.result, file, '');
+    };
+    reader.readAsDataURL(file);
   };
 
   // If user's uploaded file is not an image, or exceeds 500kb, returns an error. Otherwise,
@@ -290,11 +308,7 @@ class SignUp extends Component {
         'File too large. Maximum upload size: 500KB.'
       );
     } else {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        this.updateImageField(reader.result, file, '');
-      };
-      reader.readAsDataURL(file);
+      this.displayAndSaveImage(file);
     }
   };
 
