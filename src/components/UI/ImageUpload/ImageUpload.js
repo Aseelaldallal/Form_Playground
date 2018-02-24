@@ -7,13 +7,7 @@ const ImageUpload = props => {
       <label> {props.label} </label>
       {props.error ? <p className="error">{props.error}</p> : null}
       <img className="image" src={props.imgURL} />
-      <input
-        type="file"
-        onChange={props.changed}
-        hidden
-        ref={input => (this.myinput = input)}
-      />
-      <button onClick={() => this.myinput.click()}> Upload Image </button>
+      <input type="file" onChange={props.changed} />
     </div>
   );
 };

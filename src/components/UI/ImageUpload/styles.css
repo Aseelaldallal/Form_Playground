@@ -5,3 +5,7 @@
 .error {
   color: red;
 }
+
+.fileUpload {
+  border: 2px solid blue;
+}
