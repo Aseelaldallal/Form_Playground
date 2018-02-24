@@ -207,27 +207,8 @@ class SignUp extends Component {
   };
 
   // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
-  inputChangedHandler = (event, fieldName) => {
+  inputHandler = (event, fieldName) => {
     let field = this.state.form[fieldName];
-    if (!field.validation.required && event.target.value === '') {
-      this.updateField(
-        { value: event.target.value, valid: true, touched: false },
-        fieldName,
-        this.updateFormIsValidState
-      );
-    } else {
-      this.updateFormFieldAndValidate(
-        event.target.value,
-        fieldName,
-        this.updateFormIsValidState
-      );
-    }
-  };
-
-  // This method shows userInput on screen, validates it, and updates state.formIsValid accordingly
-  inputBlurredHandler = (event, fieldName) => {
-    let field = this.state.form[fieldName];
-    // If field isn't required, and it's empty, don't validate
     if (!field.validation.required && event.target.value === '') {
       this.updateField(
         { value: event.target.value, valid: true, touched: false },
@@ -294,8 +275,8 @@ class SignUp extends Component {
           invalid={!fieldProperties.valid}
           shouldValidate={fieldProperties.validation}
           touched={fieldProperties.touched}
-          changed={event => this.inputChangedHandler(event, fieldName)}
-          blurred={event => this.inputBlurredHandler(event, fieldName)}
+          changed={event => this.inputHandler(event, fieldName)}
+          blurred={event => this.inputHandler(event, fieldName)}
           validationMsg={fieldProperties.validationMessage}
         />
       );
