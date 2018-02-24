@@ -1,4 +1,7 @@
 .imageUpload {
   border: 5px solid black;
-  background-color: green;
+}
+
+.error {
+  color: red;
 }

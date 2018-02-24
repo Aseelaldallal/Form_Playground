@@ -171,7 +171,8 @@ class SignUp extends Component {
     formIsValid: false,
     imageData: {
       url: '',
-      file: ''
+      file: '',
+      error: ''
     }
   };
 
@@ -264,18 +265,36 @@ class SignUp extends Component {
 
   handleImageChange = e => {
     e.preventDefault();
-    let reader = new FileReader();
     let file = e.target.files[0];
-    reader.onloadend = () => {
+    var imageType = /^image\//;
+    if (!imageType.test(file.type)) {
       let updatedImageData = updateObject(this.state.imageData, {
-        imgURL: reader.result,
-        file: file
+        error: 'Invalid File Type. Must upload an image.'
       });
       this.setState({
         imageData: updatedImageData
       });
-    };
-    reader.readAsDataURL(file);
+    } else if (file.size > 500000) {
+      // 500KB
+      let updatedImageData = updateObject(this.state.imageData, {
+        error: 'File too large. Maximum upload size: 500KB.'
+      });
+      this.setState({
+        imageData: updatedImageData
+      });
+    } else {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        let updatedImageData = updateObject(this.state.imageData, {
+          imgURL: reader.result,
+          file: file
+        });
+        this.setState({
+          imageData: updatedImageData
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   render() {
@@ -286,6 +305,7 @@ class SignUp extends Component {
           <ImageUpload
             changed={e => this.handleImageChange(e)}
             imgURL={this.state.imageData.imgURL}
+            error={this.state.imageData.error}
           />
           <button disabled={!this.state.formIsValid}>SIGN UP</button>
         </form>
